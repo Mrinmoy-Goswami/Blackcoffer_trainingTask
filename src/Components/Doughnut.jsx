@@ -8,16 +8,16 @@ import { DataContext } from "../Context/DataContext";
 import axios from "axios";
 
 
-const DoughnutChart = ({ dataa }) => {
+const DoughnutChart = ({ saleData }) => {
   const { state, dispatch } = useContext(DataContext);
 
  
   const chartDataBar = {
-    labels: ["January", "February", "March", "April", "May","June","July","August","September","October","November","December"], // X Axis
+    labels: saleData.map((item)=>item._source.month), // X Axis
     datasets: [
       {
         label: "Sales (Cr)",
-        data: [12, 23, 24, 26, 56,59,50,60,100,102,105,130], //Y Axis
+        data: saleData.map((item)=>item._source.sale), //Y Axis
       },
     ],
   };

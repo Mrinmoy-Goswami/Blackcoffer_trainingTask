@@ -3,36 +3,26 @@ import DataCard from '../Components/DataCard'
 import MyChart from '../Components/Chart'
 import Piechart from '../Components/Piechart'
 import axios from 'axios'
-import { Doughnut } from 'react-chartjs-2'
+
 import DoughnutChart from '../Components/Doughnut'
 import RadarChart from '../Components/RadarChart'
 
 const Homepage = () => {
   const[Data,setData] = useState();
+ 
+
   
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.post(
-          'https://a2da2b56cc164c0ebd157ae4c2427bc9.us-central1.gcp.cloud.es.io',
-          {
-            query: {
-              match_all: {},
-            },
-          },
-          {
-            auth: {
-              username: 'mrinmoy',
-              password: 'Mydata@999',
-            },
-          }
+        const response = await axios.get("http://localhost:4000/elasticapi"
         );
-
-        setData(response.data.hits.hits);
-        setLoading(false);
+        console.log(response.data)
+        setData(response.data);
+       
       } catch (error) {
         console.error('Error fetching data:', error);
-        setLoading(false);
+       
       }
     };
 
@@ -50,20 +40,20 @@ const Homepage = () => {
         </div>
 
         <div className='w-full shadow-xl mt-5'>
-    <MyChart/>
+    <MyChart saleData={Data}/>
         </div>
     </div>
     <div className='w-full h-1/2 mt-5 shadow-lg'>
-         <Piechart/>
+         <Piechart saleData={Data}/>
         
     </div>
     <div className='flex sm:flex-row flex-col items-center'>
       <div className='w-1/2 h-[20rem] shadow-xl'>
 
-    <DoughnutChart/>
+    <DoughnutChart saleData={Data}/>
       </div>
       <div className='w-1/2 h-[20rem] shadow-xl'>
-<RadarChart/>
+<RadarChart saleData={Data}/>
       </div>
     </div>
     </div>
